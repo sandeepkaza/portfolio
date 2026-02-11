@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandeep Kaza | Cloud Solution Architect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0e27;
+            --secondary: #1a1f3a;
+            --accent: #00d4ff;
+            --accent-warm: #ff6b35;
+            --text: #e8eef7;
+            --text-muted: #8b95b0;
+            --success: #00ff88;
+            --surface: #141829;
+            --border: rgba(0, 212, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+            transition: transform 0.1s ease-out;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(-20px, 20px) scale(1.02) rotate(1deg); }
+            50% { transform: translate(-20px, -20px) scale(1.05) rotate(-1deg); }
+            75% { transform: translate(20px, -20px) scale(1.02) rotate(0.5deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1.5rem 0;
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            bottom: 10px;
+            width: 3px;
+            height: 60%;
+            background: var(--accent);
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .stat:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            border-color: var(--accent);
+            box-shadow: 
+                0 20px 40px rgba(0, 212, 255, 0.3),
+                0 0 50px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .tech-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .tech-card:nth-child(2) { animation-delay: 0.2s; }
+        .tech-card:nth-child(3) { animation-delay: 0.4s; }
+        .tech-card:nth-child(4) { animation-delay: 0.6s; }
+        .tech-card:nth-child(5) { animation-delay: 0.8s; }
+        .tech-card:nth-child(6) { animation-delay: 1s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tech-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.05) translateY(-5px) rotate(2deg);
+            box-shadow: 
+                0 10px 30px rgba(0, 212, 255, 0.3),
+                0 0 60px rgba(0, 212, 255, 0.2),
+                inset 0 0 20px rgba(0, 212, 255, 0.1);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3), 0 0 60px rgba(0, 212, 255, 0.2); }
+            50% { box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5), 0 0 80px rgba(0, 212, 255, 0.3); }
+        }
+
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn > span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent), var(--success));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--accent);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(0, 212, 255, 0.3),
+                0 0 40px rgba(0, 212, 255, 0.1);
+            background: linear-gradient(135deg, var(--surface) 0%, rgba(0, 212, 255, 0.05) 100%);
+        }
+
+        .timeline-item::after {
+            content: '→';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%) translateX(0);
+            font-size: 2rem;
+            color: var(--accent);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(10px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 2rem;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.2);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .timeline-company {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .timeline-date {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .timeline-content {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .timeline-content ul {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .timeline-content li::marker {
+            color: var(--accent);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .skill-category h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-icon {
+            font-size: 1.8rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--text);
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .skill-tag:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 255, 136, 0.2));
+            border-color: var(--accent);
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            color: var(--accent);
+        }
+
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cert-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .cert-card:hover {
+            border-color: var(--success);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .cert-badge {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .cert-issuer {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent);
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 
+                0 10px 40px rgba(0, 212, 255, 0.3),
+                inset 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .contact-item:hover::before {
+            opacity: 1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .contact-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-details p {
+            color: var(--text-muted);
+        }
+
+        .contact-details a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-visual {
+            text-align: center;
+        }
+
+        .contact-cta {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+        }
+
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                left: -2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <nav>
+        <div class="container">
+            <div class="logo">SK</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-label">Senior Cloud Solution Architect</div>
+                <h1>Sandeep Kaza</h1>
+                <p class="hero-subtitle">Results-driven cloud architect with 11+ years specializing in multi-cloud infrastructure design and enterprise-scale migrations<br>Proven track record delivering cost-effective solutions that drive operational efficiency and support high-volume transaction processing</p>
+                
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Let's Connect</span>
+                        <span>→</span>
+                    </a>
+                    <a href="#experience" class="btn btn-secondary">View Experience</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">11+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Workloads Migrated</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">60%</div>
+                        <div class="stat-label">Cost Savings</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">☁️</div>
+                        <div class="tech-name">Azure</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🚀</div>
+                        <div class="tech-name">AWS</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🔧</div>
+                        <div class="tech-name">Terraform</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">⚡</div>
+                        <div class="tech-name">Kubernetes</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🔐</div>
+                        <div class="tech-name">Security</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">📊</div>
+                        <div class="tech-name">DevOps</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-label">Career Journey</div>
+                <h2>Professional Experience</h2>
+                <p class="section-description">Delivering innovative cloud solutions with measurable business impact across global enterprises</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Sr. Cloud Solution Architect</div>
+                            <div class="timeline-company">Arch Insurance, USA</div>
+                        </div>
+                        <div class="timeline-date">April 2024 – Present</div>
+                    </div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Architected and implemented Azure-to-Azure disaster recovery solution using Zerto, achieving 99.99% uptime and reducing deployment time by 25% through IaC automation (Terraform, Bicep, ARM templates)</li>
+                            <li>Engineered comprehensive observability platform leveraging Prometheus, Grafana, and ClickHouse, improving incident detection time by 40% and system reliability</li>
+                            <li>Designed and deployed end-to-end CI/CD pipelines for ML model deployment, reducing time-to-production from weeks to days</li>
+                            <li>Spearheaded multi-cloud infrastructure deployments cutting operational costs by 10% while maintaining 99.99% uptime</li>
+                            <li>Led data platform modernization initiative, increasing processing efficiency by 25% and reducing storage costs by 10% through strategic optimization</li>
+                            <li>Collaborated with security operations to remediate high-risk CIS benchmark findings using Wiz Cloud Security Platform, ensuring enterprise-wide compliance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Sr. Cloud Solution Architect</div>
+                            <div class="timeline-company">E-Hosting Data Fort, Dubai</div>
+                        </div>
+                        <div class="timeline-date">July 2022 – April 2024</div>
+                    </div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Spearheaded multi-cloud infrastructure deployments across AWS and private/public clouds, enhancing application performance by 20% and scalability through strategic automation</li>
+                            <li>Accelerated software delivery by 30% and reduced deployment time by 40% through implementation of robust CI/CD pipelines (Jenkins, Docker) and infrastructure-as-code practices</li>
+                            <li>Reduced system downtime by 83% through automation and configuration management (Ansible), ensuring 24/7 availability for critical production systems</li>
+                            <li>Successfully deployed and managed complex GPU-based VDI environments supporting Nvidia workstations for high-performance computing</li>
+                            <li>Achieved 30% increase in solution efficiency and 20% reduction in infrastructure costs through strategic optimization initiatives</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Cloud Solution Architect</div>
+                            <div class="timeline-company">Logicom (Microsoft Distributor), Dubai</div>
+                        </div>
+                        <div class="timeline-date">June 2021 – July 2022</div>
+                    </div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Reduced Total Cost of Ownership (TCO) by 20% through strategic cloud infrastructure planning, design, and optimization across Azure, AWS, Hyper-V, and VMware platforms</li>
+                            <li>Exceeded quarterly sales targets by 15% as pre-sales technical leader, delivering winning cloud solutions in response to RFPs/RFIs with 95% cost estimation accuracy</li>
+                            <li>Enhanced client experience by 38% and reduced project timelines by 10% through effective post-sales technical leadership and solution delivery</li>
+                            <li>Architected virtual multitenant environments maximizing cost savings by 45% while maintaining high performance and security standards</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item fade-in">
+                    <div class="timeline-header">
+                        <div>
+                            <div class="timeline-title">Cloud Solution Architect</div>
+                            <div class="timeline-company">Exquitech (Microsoft Gold Partner), Dubai</div>
+                        </div>
+                        <div class="timeline-date">Aug 2019 – June 2021</div>
+                    </div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Successfully migrated 100+ workloads to Microsoft Azure with 100% completion rate, including transition of 1,000+ mailboxes to Office 365, increasing system performance by 30%</li>
+                            <li>Deployed and maintained end-to-end Azure Virtual Desktop solutions, enhancing user productivity by 42% and reducing infrastructure overhead</li>
+                            <li>Led Active Directory migration from Windows Server 2008 R2 to 2019 for multiple enterprise clients, improving security posture and performance by 35%</li>
+                            <li>Reduced infrastructure costs by 25% through strategic workload migration from Hyper-V, VMware, and physical infrastructure to cloud platforms</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" style="background: var(--secondary);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-label">Technical Arsenal</div>
+                <h2>Skills & Expertise</h2>
+                <p class="section-description">Comprehensive expertise across cloud platforms, DevOps, and infrastructure technologies</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category fade-in">
+                    <h3><span class="skill-icon">☁️</span> Cloud Platforms</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Azure</span>
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">GCP</span>
+                        <span class="skill-tag">OCI</span>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3><span class="skill-icon">🔧</span> Infrastructure as Code</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Terraform</span>
+                        <span class="skill-tag">CloudFormation</span>
+                        <span class="skill-tag">Ansible</span>
+                        <span class="skill-tag">ARM Templates</span>
+                        <span class="skill-tag">Bicep</span>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3><span class="skill-icon">⚡</span> Cloud Native</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Microservices</span>
+                        <span class="skill-tag">EKS</span>
+                        <span class="skill-tag">AKS</span>
+                        <span class="skill-tag">GKE</span>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3><span class="skill-icon">🚀</span> CI/CD & DevOps</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Jenkins</span>
+                        <span class="skill-tag">Azure DevOps</span>
+                        <span class="skill-tag">GitLab CI/CD</span>
+                        <span class="skill-tag">GitHub Actions</span>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3><span class="skill-icon">📊</span> Monitoring & Observability</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Prometheus</span>
+                        <span class="skill-tag">Grafana</span>
+                        <span class="skill-tag">Splunk</span>
+                        <span class="skill-tag">ELK Stack</span>
+                        <span class="skill-tag">Nagios</span>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3><span class="skill-icon">🔐</span> Security & Compliance</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">IAM</span>
+                        <span class="skill-tag">RBAC</span>
+                        <span class="skill-tag">PCI-DSS</span>
+                        <span class="skill-tag">NIST</span>
+                        <span class="skill-tag">CIS</span>
+                        <span class="skill-tag">Firewalls</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-label">Major Wins</div>
+                <h2>Key Achievements</h2>
+                <p class="section-description">Measurable impact delivered across cloud infrastructure initiatives</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-card fade-in">
+                    <h3>🚀 Enterprise Migration Excellence</h3>
+                    <p>Successfully migrated 35+ applications and 100+ workloads from data centers to multi-cloud environments using diverse migration strategies (rehost, refactor, rearchitect, rebuild)</p>
+                </div>
+                <div class="about-card fade-in">
+                    <h3>⚡ High-Performance Infrastructure</h3>
+                    <p>Architected infrastructure supporting 1.5M+ daily transactions through strategic cloud scaling and optimization, ensuring consistent performance under peak loads</p>
+                </div>
+                <div class="about-card fade-in">
+                    <h3>💰 Cost Optimization Leadership</h3>
+                    <p>Achieved up to 60% cost savings through comprehensive workload optimization across Azure subscriptions while maintaining performance and reliability</p>
+                </div>
+                <div class="about-card fade-in">
+                    <h3>🔒 Security & Compliance Excellence</h3>
+                    <p>Maintained 100% compliance across all Azure subscriptions through policy enforcement and security control implementation aligned with PCI-DSS, NIST, and CIS standards</p>
+                </div>
+                <div class="about-card fade-in">
+                    <h3>⏱️ Operational Efficiency</h3>
+                    <p>Reduced patch management overhead by 70% through implementation of Azure Update Manager, freeing teams to focus on strategic initiatives</p>
+                </div>
+                <div class="about-card fade-in">
+                    <h3>🎯 Process Automation</h3>
+                    <p>Reduced deployment time by 40% and system downtime by 83% through comprehensive automation and infrastructure-as-code practices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-label">Professional Credentials</div>
+                <h2>Certifications</h2>
+                <p class="section-description">Industry-recognized certifications validating expertise in cloud technologies</p>
+            </div>
+
+            <div class="cert-grid">
+                <div class="cert-card fade-in">
+                    <div class="cert-badge">🏆</div>
+                    <div class="cert-name">Microsoft Certified</div>
+                    <div class="cert-issuer">Azure Solutions Architect</div>
+                </div>
+                <div class="cert-card fade-in">
+                    <div class="cert-badge">🏆</div>
+                    <div class="cert-name">AWS Certified</div>
+                    <div class="cert-issuer">Solutions Architect</div>
+                </div>
+                <div class="cert-card fade-in">
+                    <div class="cert-badge">🏆</div>
+                    <div class="cert-name">Cloud Security</div>
+                    <div class="cert-issuer">Professional Certifications</div>
+                </div>
+                <div class="cert-card fade-in">
+                    <div class="cert-badge">🏆</div>
+                    <div class="cert-name">DevOps</div>
+                    <div class="cert-issuer">Engineering Certifications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="background: var(--secondary);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-label">Get In Touch</div>
+                <h2>Let's Connect</h2>
+                <p class="section-description">Available for consulting, collaboration, and exciting cloud architecture opportunities</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item fade-in">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p><a href="mailto:Sandeep.kaza@gmail.com">Sandeep.kaza@gmail.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item fade-in">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <h4>LinkedIn</h4>
+                            <p><a href="https://www.linkedin.com/in/sandeepkvsc/" target="_blank">Connect on LinkedIn</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-visual fade-in">
+                    <div class="contact-cta">
+                        <h3>Ready to Transform Your Cloud Infrastructure?</h3>
+                        <p>Let's discuss how I can help architect scalable, secure, and cost-effective cloud solutions for your organization.</p>
+                        <a href="mailto:Sandeep.kaza@gmail.com" class="btn btn-primary">Start a Conversation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="mailto:Sandeep.kaza@gmail.com" class="social-link" title="Email">📧</a>
+                <a href="https://www.linkedin.com/in/sandeepkvsc/" class="social-link" title="LinkedIn" target="_blank">💼</a>
+                <a href="#" class="social-link" title="GitHub">💻</a>
+            </div>
+            <p style="color: var(--text-muted);">&copy; 2026 Sandeep Kaza. All rights reserved.</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Senior Cloud Solution Architect | Multi-Cloud Infrastructure Expert | Enterprise Migration Specialist</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active navigation highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = 'var(--text-muted)';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = 'var(--accent)';
+                }
+            });
+        });
+
+        // Parallax effect on background
+        const bgAnimation = document.querySelector('.bg-animation');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            bgAnimation.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // 3D tilt effect for stat cards
+        const stats = document.querySelectorAll('.stat');
+        stats.forEach(stat => {
+            stat.addEventListener('mousemove', (e) => {
+                const rect = stat.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                stat.style.transform = `translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            stat.addEventListener('mouseleave', () => {
+                stat.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Magnetic effect for timeline items
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const distance = Math.abs(x - rect.width);
+                const pull = Math.max(0, 20 - distance / 10);
+                item.style.transform = `translateX(${10 + pull}px) scale(1.02)`;
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+
+        // Interactive skill tags with wave effect
+        const skillTags = document.querySelectorAll('.skill-tag');
+        skillTags.forEach((tag, index) => {
+            tag.addEventListener('mouseenter', () => {
+                // Create ripple effect on nearby tags
+                skillTags.forEach((otherTag, otherIndex) => {
+                    const distance = Math.abs(index - otherIndex);
+                    if (distance <= 2 && distance > 0) {
+                        setTimeout(() => {
+                            otherTag.style.transform = 'scale(1.05) translateY(-2px)';
+                            setTimeout(() => {
+                                otherTag.style.transform = 'scale(1) translateY(0)';
+                            }, 200);
+                        }, distance * 100);
+                    }
+                });
+            });
+        });
+
+        // Animated counter for stats
+        const animateCounter = (element, target) => {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 60 ? '%' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (target === 60 ? '%' : '+');
+                }
+            }, 30);
+        };
+
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const text = target.textContent;
+                    const value = parseInt(text);
+                    animateCounter(target, value);
+                    statsObserver.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(stat => statsObserver.observe(stat));
+    </script>
+</body>
+</html>
