@@ -1,0 +1,4 @@
+public/
+  index.html
+  robots.txt
+  favicon.ico
